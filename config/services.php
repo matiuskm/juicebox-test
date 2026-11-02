@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    'weather' => [
+        'url' => env('WEATHER_BASE_URL', 'https://api.open-meteo.com/v1'),
+        'cache_ttl' => env('WEATHER_CACHE_TTL', 900),
+    ],
+
 ];

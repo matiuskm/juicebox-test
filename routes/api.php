@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WeatherController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -13,6 +14,7 @@ Route::middleware('throttle:10,1')->group(function () {
 });
 
 Route::apiResource('posts', PostController::class)->only(['index', 'show']);
+Route::get('/weather', WeatherController::class);
 
 // Authenticated (Bearer token from /register or /login)
 Route::middleware('auth:sanctum')->group(function () {

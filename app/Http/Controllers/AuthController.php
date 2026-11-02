@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\UserResource;
+use App\Jobs\SendWelcomeEmail;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -17,10 +18,12 @@ class AuthController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:255|unique:users',
-            'password' => ['required', 'string', 'min:8', 'confirmed', Password::defaults()],
+            'password' => ['required', 'confirmed', Password::defaults()],
         ]);
 
-        $user = \App\Models\User::create($validatedData);
+        $user = User::create($validatedData);
+
+        SendWelcomeEmail::dispatch($user);
 
         return $this->tokenResponse($user, Response::HTTP_CREATED);
     }
